@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Data.SqlTypes;
 
 namespace AW23_PRRPRR01_15_Tvådimensionella_arrayer {
 	internal class Program {
@@ -51,6 +52,18 @@ namespace AW23_PRRPRR01_15_Tvådimensionella_arrayer {
 			}
 		}
 
+		static Color[,] Rotate90DegClockwise(Color[,] source) {
+			Color[,] target = new Color[source.GetLength(1), source.GetLength(0)];
+
+			for (int y = 0; y < target.GetLength(1); y++) {
+				for (int x = 0; x < target.GetLength(0); x++) {
+					target[x, y] = source[y, source.GetLength(1) - 1 - x];
+				}
+			}
+
+			return target;
+		}
+
 		static void Main(string[] args) {
 			//Console.WriteLine("Hejsan svejsan".PastelBg(Color.FromArgb(23, 98, 213)));
 
@@ -58,9 +71,11 @@ namespace AW23_PRRPRR01_15_Tvådimensionella_arrayer {
 
 			MakeGrayscale(image);
 
-			for (int y = 0; y < image.GetLength(1); y++) {
-				for (int x = 0; x < image.GetLength(0); x++) {
-					Console.Write(" ".PastelBg(image[x, y]));
+			Color[,] rotated = Rotate90DegClockwise(image);
+
+			for (int y = 0; y < rotated.GetLength(1); y++) {
+				for (int x = 0; x < rotated.GetLength(0); x++) {
+					Console.Write(" ".PastelBg(rotated[x, y]));
 				}
 				Console.WriteLine();
 			}
